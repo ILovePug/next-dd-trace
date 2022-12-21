@@ -16,8 +16,10 @@ npm run start
 1. repeatly visit `/demo` and `/demo2` pages a couple times
 2. generate the heap snapshot through Chrome inspect device
 ![](images/memory_leak.png?raw=true)
-3. repeat step 1 and continue observe more `IncomingMessage` are generated ![](images/spike.png?raw=true)
-4. wait a couple more seconds and see some of them getting garbage collected but the remaining stay in memory forever ![](images/dip.png?raw=true)
+3. repeat step 1 and continue observe more `IncomingMessage` are generated 
+![](images/spike.png?raw=true)
+4. wait a couple more seconds and see some of them getting garbage collected but the remaining stay in the memory forever 
+![](images/dip.png?raw=true)
 
 
 ## Temporary solution and fix
@@ -55,5 +57,7 @@ Our solution is to patch the compiled `getServer` and `getServerRequestHandler` 
 ```
 with the fix
 1. repeatly visit `/demo` and `/demo2` pages a couple times
-2. generate the heap snapshot through Chrome inspect device. We would still see a couple `IncomingMessage`. ![](images/fixed_rightafter.png?raw=true)
-3. However, if you wait 2-3 seconds and regenerate the heap snapshot. All those `IncomingMessage` will be cleared out.![](images/fixed_wait.png?raw=true)
+2. generate the heap snapshot through Chrome inspect device. We would still see a couple `IncomingMessage`. 
+![](images/fixed_rightafter.png?raw=true)
+3. However, if you wait 2-3 seconds and regenerate the heap snapshot. All those `IncomingMessage` will be cleared out.
+![](images/fixed_wait.png?raw=true)
