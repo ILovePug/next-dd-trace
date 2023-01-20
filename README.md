@@ -61,3 +61,17 @@ with the fix
 ![](images/fixed_rightafter.png?raw=true)
 3. However, if you wait 2-3 seconds and regenerate the heap snapshot. All those `IncomingMessage` will be cleared out.
 ![](images/fixed_wait.png?raw=true)
+
+##  memory leaking beheavior when using NextJs Dynamic
+We discovered another memory leak issue where NextJS dynamic is preventing `IncomingMessage` to be cleared out.
+
+We prepared two pages: 
+- `http://localhost:3000/direct` direct import component (good)
+- `http://localhost:3000/dynamic` dynamic import component (bad)
+
+Steps to reproduce.
+1. Visit `/direct` and generate the heap snapshot through Chrome inspect device. If you generate it fast enough, you will see `IncomingMessage` is in the Timeout phrase. You might not see it for it might have already passed timeout. ![](images/direct_timeout.png?raw=true)
+2. wait 2-3 seconds and regenerate the heap snapshot, you will see the same `IncomeMessage` no longer exist.
+![](images/direct_after.png?raw=true)
+3. Now visit `/dynamic` and generate the heap snapshot. Just like `/direct` route, You will see `IncomingMessage` is in the Timeout phrase. ![](images/dynamic_timeout.png?raw=true)
+4. wait 2-3 seconds and regenerate the heap snapshot, you will see the same `IncomeMessage` just stays there and stuck in the WeapMap forever. ![](images/dynamic_after.png?raw=true)
